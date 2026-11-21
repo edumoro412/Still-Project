@@ -1,0 +1,48 @@
+@use "./styles/variables" as v;
+body {
+  background-color: v.$fondo;
+}
+.app {
+  height: 100dvh;
+  color: v.$texto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__title {
+    padding: 2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 3em;
+  }
+
+  &__input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid v.$apagado;
+    padding: 0.5em 0.25em;
+    border-radius: 1em;
+    text-transform: uppercase;
+    text-align: center;
+    outline: none;
+    color: v.$texto;
+    &:focus {
+      border-bottom-color: v.$acento;
+    }
+    &::placeholder {
+      color: v.$apagado;
+    }
+  }
+
+  &__aviso {
+    color: v.$apagado;
+    margin-top: auto;
+    padding-bottom: 2em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    &--icono {
+      flex-shrink: 0;
+    }
+  }
+}
