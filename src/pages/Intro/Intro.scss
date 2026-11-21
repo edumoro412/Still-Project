@@ -1,0 +1,181 @@
+@use "../../styles/variables" as v;
+
+$tam-punto: 14px;
+$columna: 30; // posición del punto que late
+$fila: 6;
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(0.6em);
+  }
+}
+
+@keyframes latido {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+body {
+  background-color: v.$fondo;
+}
+
+.app {
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+  padding: 0 1.5em 8em 1.5em;
+  color: v.$texto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &__puntos {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: radial-gradient(
+      circle,
+      color-mix(in srgb, #{v.$apagado} 35%, transparent) 1px,
+      transparent 1.5px
+    );
+    background-size: $tam-punto $tam-punto;
+    -webkit-mask-image: radial-gradient(
+      ellipse at center,
+      #000 25%,
+      transparent 75%
+    );
+    mask-image: radial-gradient(ellipse at center, #000 25%, transparent 75%);
+  }
+
+  &__pulso {
+    position: absolute;
+    z-index: -1;
+    top: calc(#{$tam-punto} * #{$fila} + #{$tam-punto} / 2 - 2.5px);
+    left: calc(#{$tam-punto} * #{$columna} + #{$tam-punto} / 2 - 2.5px);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: v.$acento;
+    animation: latido 4s ease-in-out infinite;
+  }
+
+  &__title {
+    padding: 1em;
+    font-weight: 300;
+    font-size: clamp(1.8em, 5vw, 3em);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    text-align: center;
+    animation: aparecer 1.4s ease 0.2s both;
+  }
+
+  &__campos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5em;
+    margin-bottom: 2.5em;
+    animation: aparecer 1.4s ease 1s both;
+  }
+
+  &__input {
+    width: 12em;
+    border-radius: 0;
+    width: 14em;
+    padding: 0.6em 0.25em;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid v.$apagado;
+    outline: none;
+    color: v.$texto;
+    font-size: 1em;
+    letter-spacing: 0.15em;
+    text-align: center;
+    text-transform: uppercase;
+    transition: border-color 0.3s;
+
+    &:focus {
+      border-bottom-color: v.$acento;
+    }
+
+    &::placeholder {
+      color: v.$apagado;
+    }
+
+    &[type="number"] {
+      appearance: textfield;
+      -moz-appearance: textfield;
+
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
+
+    &--edad {
+      width: 12em;
+    }
+  }
+
+  &__boton {
+    padding: 0.9em 2.5em;
+    background: transparent;
+    border: 1px solid v.$apagado;
+    color: v.$texto;
+    font-size: 0.85em;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      color 0.3s,
+      border-color 0.3s;
+    animation: aparecer 1.4s ease 1.8s both;
+
+    &:hover:not(:disabled),
+    &:focus-visible {
+      color: v.$acento;
+      border-color: v.$acento;
+      outline: none;
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+  }
+
+  &__aviso {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 1.5em 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    color: v.$apagado;
+    font-size: 0.8em;
+    text-align: center;
+    animation: aparecer 1.4s ease 2.6s both;
+
+    &--icono {
+      flex-shrink: 0;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app * {
+    animation: none;
+  }
+}
