@@ -1,26 +1,32 @@
 import "./App.scss";
-import { LockKeyhole } from "lucide-react";
-import { useState } from "react";
-
+import { useState, useRef } from "react";
+import Intro from "./pages/Intro/Intro";
 function App() {
+  const audioRef = useRef(null);
   const [nombre, setNombre] = useState("");
-  console.log(nombre, " este es el nombre");
+  const [edad, setEdad] = useState("");
+  const [escena, setEscena] = useState("intro");
+
+  const empezar = () => {
+    const audio = audioRef.current;
+    audio.volume = 0.3;
+    audio.play().catch((error) => console.log("No se pudo reproducir:", error));
+    setEscena(null);
+  };
+
   return (
-    <div className="app">
-      <h1 className="app__title">Still Project</h1>
-      <input
-        className="app__input"
-        value={nombre}
-        placeholder="TU NOMBRE"
-        onChange={(e) => {
-          setNombre(e.target.value);
-        }}
-      />
-      <p className="app__aviso">
-        <LockKeyhole size={15} className="app__aviso--icono" />
-        Tus datos no salen de tu dispositivo ni se guardan en ningún servidor.
-      </p>
-    </div>
+    <>
+      <audio ref={audioRef} src="/music/piano.mp3" loop />
+      {escena === "intro" && (
+        <Intro
+          nombre={nombre}
+          setNombre={setNombre}
+          edad={edad}
+          setEdad={setEdad}
+          onEmpezar={empezar}
+        />
+      )}
+    </>
   );
 }
 
