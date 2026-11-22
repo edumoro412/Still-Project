@@ -10,7 +10,8 @@ function Parents({ nombre, edad, onSemanas }) {
     horas = 43650 + (edad - 30) * 150;
   }
 
-  const porcentaje = (horas / 47500) * 100;
+  const porcentaje = Math.min(100, Math.round((horas / 47500) * 100));
+  const superaLaMedia = horas >= 47500;
   return (
     <div className="parents">
       <h2 className="parents__title">
@@ -22,11 +23,24 @@ function Parents({ nombre, edad, onSemanas }) {
         <span className="parents__title--span">{horas}</span> horas con tus
         padres.
       </h2>
-      <h2 className="parents__title">
-        Eso es, más o menos, el{" "}
-        <span className="parents__title--span"> {porcentaje.toFixed(2)}%</span>{" "}
-        de todo el tiempo que vais a pasar juntos.
-      </h2>
+      {superaLaMedia ? (
+        <>
+          {" "}
+          <h2 className="parents__title">
+            Ya habéis pasado juntos más tiempo del que la estadística esperaba.
+          </h2>
+          <h2 className="parents__title">
+            Todo lo que venga ahora es{" "}
+            <span className="parents__title--span">tiempo extra</span>.
+          </h2>
+        </>
+      ) : (
+        <h2 className="parents__title">
+          Eso es, más o menos, el{" "}
+          <span className="parents__title--span">{porcentaje}%</span> de todo el
+          tiempo que vais a pasar juntos.
+        </h2>
+      )}
       <button className="parents__button" onClick={onSemanas}>
         Siguiente
       </button>
