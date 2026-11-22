@@ -1,6 +1,7 @@
 import "./App.scss";
 import { useState, useRef } from "react";
 import Intro from "./pages/Intro/Intro";
+import Parents from "./pages/Parents/Parents";
 function App() {
   const audioRef = useRef(null);
   const [nombre, setNombre] = useState("");
@@ -11,7 +12,12 @@ function App() {
     const audio = audioRef.current;
     audio.volume = 0.3;
     audio.play().catch((error) => console.log("No se pudo reproducir:", error));
-    setEscena(null);
+    setEscena("parents");
+  };
+
+  const semanas = () => {
+    setEscena("semanas");
+    console.log("click");
   };
 
   return (
@@ -25,6 +31,9 @@ function App() {
           setEdad={setEdad}
           onEmpezar={empezar}
         />
+      )}
+      {escena === "parents" && (
+        <Parents nombre={nombre} edad={edad} onSemanas={semanas} />
       )}
     </>
   );
